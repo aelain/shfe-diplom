@@ -1,9 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation, Navigate } from 'react-router-dom';
 import logo from '../assets/svg/logo.svg';
 import DaysMenu from './DaysMenu.jsx';
 import MoviesSection from './MoviesSection.jsx';
 
 const HomePage = () => {
+  const location = useLocation();
+  const indexOfStartOfDay = location.pathname.lastIndexOf('/');
+  const countOfDays = Number(location.pathname.slice(indexOfStartOfDay + 1));
+  const invalidUrl = Number.isNaN(countOfDays);
+
+  if (invalidUrl) {
+    return <Navigate to={'/'} />;
+  }
+
   const root = document.querySelector(':root');
   if (root) {
     root.classList.remove('root__admin');

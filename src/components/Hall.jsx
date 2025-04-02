@@ -18,8 +18,8 @@ const Hall = () => {
 
   // Расчет даты
   const today = new Date();
-  const indexOfStartOfDay = state.url.lastIndexOf('/');
-  const countOfDays = Number(state.url.slice(indexOfStartOfDay + 1));
+  const indexOfStartOfDay = state?.url.lastIndexOf('/');
+  const countOfDays = Number(state?.url.slice(indexOfStartOfDay + 1));
   const date = new Date(today);
   date.setDate(today.getDate() + countOfDays);
   const day = date.toLocaleString('ru-RU', { day: '2-digit' });
@@ -28,14 +28,14 @@ const Hall = () => {
 
   useEffect(() => {
     createRequest({
-      url: 'hallconfig?seanceId=' + state.seanceId + '&date=' + dateForRequest,
+      url: 'hallconfig?seanceId=' + state?.seanceId + '&date=' + dateForRequest,
       method: 'GET',
     }).then((response) => {
       if (response.success) {
         setData(response.result);
       }
     });
-  }, [setData, dateForRequest, state.seanceId]);
+  }, [setData, dateForRequest, state]);
 
   if (!state) return <Navigate to={'/'} />;
 
