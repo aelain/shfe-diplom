@@ -62,6 +62,7 @@ const AdminPage = () => {
         setHallConfigId(response.result.halls[0]?.id);
         setHallPriceStandart(response.result.halls[0]?.hall_price_standart ?? 0);
         setHallPriceVip(response.result.halls[0]?.hall_price_vip ?? 0);
+        setHallPriceId(response.result.halls[0]?.id ?? 0);
         setDataSeances(response.result?.seances);
         setOpenSaleValue(response.result.halls[0]?.hall_open);
       }
@@ -189,7 +190,10 @@ const AdminPage = () => {
                     name="rowCount"
                     value={hallRowsCount}
                     onChange={event => {
-                      setHallRowsCount(Number(event.currentTarget.value));
+                      const rowCountValue = Number(event.currentTarget.value);
+                      if (rowCountValue > 0) {
+                        setHallRowsCount(rowCountValue);
+                      }
                     }}
                     placeholder="10"
                     required
@@ -204,7 +208,12 @@ const AdminPage = () => {
                     type="number"
                     name="placeCount"
                     value={hallPlacesCount}
-                    onChange={event => setHallPlacesCount(Number(event.currentTarget.value))}
+                    onChange={event => {
+                      const placeCountValue = Number(event.currentTarget.value);
+                      if (placeCountValue > 0) {
+                        setHallPlacesCount(placeCountValue);
+                      }
+                    }}
                     placeholder="8"
                     required
                   />
@@ -290,7 +299,12 @@ const AdminPage = () => {
                       name="priceStandart"
                       value={hallPriceStandart}
                       onChange={(event) => {
-                        setHallPriceStandart(event.currentTarget.value);
+                        const priceStandartValue = Number(event.currentTarget.value);
+                        if (priceStandartValue >= 0) {
+                          setHallPriceStandart(priceStandartValue);
+                        } else {
+                          setHallPriceStandart(0);
+                        }
                       }}
                       placeholder="0"
                       required
@@ -308,7 +322,12 @@ const AdminPage = () => {
                       name="priceVip"
                       value={hallPriceVip}
                       onChange={(event) => {
-                        setHallPriceVip(event.currentTarget.value);
+                        const priceVipValue = Number(event.currentTarget.value);
+                        if (priceVipValue >= 0) {
+                          setHallPriceVip(priceVipValue);
+                        } else {
+                          setHallPriceVip(0);
+                        }
                       }}
                       placeholder="0"
                       required
@@ -323,7 +342,7 @@ const AdminPage = () => {
               <button
                 className="btn_cancel"
                 type="button"
-                onClick={event => onCancelHallPrice(event, data, hallPriceId)}>
+                onClick={event => onCancelHallPrice(event, data, hallPriceId, setHallPriceStandart, setHallPriceVip)}>
                 Отмена
               </button>
               <button className="btn_ok btn_save">Сохранить</button>

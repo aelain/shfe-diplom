@@ -1,6 +1,6 @@
 import createRequest from '../api/createRequest';
 
-export default function onAddFilm(event, onDataChange) {
+export default function onAddFilm(event, onDataChange, setFilmDuration) {
   event.preventDefault();
   const { currentTarget } = event;
   const formData = new FormData(currentTarget);
@@ -12,6 +12,7 @@ export default function onAddFilm(event, onDataChange) {
   }).then((response) => {
     if (response.success) {
       currentTarget?.reset();
+      setFilmDuration('');
 
       // Изменение кнопки добавления постера
       const fileInput = currentTarget?.querySelector('input[type=file]');

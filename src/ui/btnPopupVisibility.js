@@ -17,6 +17,16 @@ export const closePopup = (event) => {
   popup?.classList.add('hidden');
   const form = popup?.querySelector('form');
   form?.reset();
+};
+
+export const closePopupAddFilm = (event, setFilmDuration) => {
+  event.preventDefault();
+  const target = event.target;
+  const popup = target.closest('.popup');
+  popup?.classList.add('hidden');
+  const form = popup?.querySelector('form');
+  form?.reset();
+  setFilmDuration('');
 
   // Изменение кнопки добавления постера
   const fileInput = form?.querySelector('input[type=file]');

@@ -1,9 +1,10 @@
-import { useRef } from 'react';
-import { closePopup } from '../../ui/btnPopupVisibility.js';
+import { useRef, useState } from 'react';
+import { closePopupAddFilm } from '../../ui/btnPopupVisibility.js';
 import onAddFilm from '../../ui/onAddFilm.js';
 import onChangePoster from '../../ui/onChangePoster.js';
 
 const AddFilm = ({ onDataChange }) => {
+  const [filmDuration, setFilmDuration] = useState('');
   const refPosterLabel = useRef();
   const refPosterInput = useRef();
 
@@ -13,15 +14,17 @@ const AddFilm = ({ onDataChange }) => {
         <div className="popup__content">
           <header className="popup__header">
             Добавление фильма
-            <button className="btn_close" type="button" onClick={event => closePopup(event)}></button>
+            <button className="btn_close" type="button" onClick={event => closePopupAddFilm(event, setFilmDuration)}></button>
           </header>
 
-          <form className="popup__form" onSubmit={event => onAddFilm(event, onDataChange)}>
+          <form className="popup__form" onSubmit={event => onAddFilm(event, onDataChange, setFilmDuration)}>
             <div className="popup__settings">
               <label className="admin__label popup__label" htmlFor="film-name">Название фильма</label>
               <input className="admin__input popup__input" type="text" name="filmName" id="film-name" placeholder="Например, «Гражданин Кейн»" required />
               <label className="admin__label popup__label" htmlFor="film-duration">Продолжительность фильма (мин.)</label>
-              <input className="admin__input popup__input" type="number" name="filmDuration" id="film-duration" required />
+              <input className="admin__input popup__input" type="number" name="filmDuration" id="film-duration" value={filmDuration} onChange={event => {
+                +event.currentTarget.value >= 0 ? setFilmDuration(event.currentTarget.value) : setFilmDuration("");
+              }} required />
               <label className="admin__label popup__label" htmlFor="film-description">Описание фильма</label>
               <textarea className="popup__textarea" name="filmDescription" id="film-description" required />
               <label className="admin__label popup__label" htmlFor="film-origin">Страна</label>
@@ -49,7 +52,7 @@ const AddFilm = ({ onDataChange }) => {
               <button
                 className="btn_cancel popup__btn"
                 type="button"
-                onClick={closePopup}
+                onClick={event => closePopupAddFilm(event, setFilmDuration)}
               >
                 Отменить
               </button>
